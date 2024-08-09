@@ -6,15 +6,19 @@ import Layout from './Layout.tsx';
 import './main.css';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './theme/theme';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './service/graphql/client.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <App />
-        </Layout>
-      </ThemeProvider>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <App />
+          </Layout>
+        </ThemeProvider>
+      </ApolloProvider>
     </BrowserRouter>
   </StrictMode>,
 );

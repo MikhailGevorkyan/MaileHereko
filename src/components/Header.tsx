@@ -10,12 +10,14 @@ const Header: FC = () => {
         position="static"
         sx={{
           backgroundColor: 'rgba(18, 24, 41, 1)',
+          boxShadow: 'none',
         }}
       >
         <Toolbar
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
+            gap: '4rem',
           }}
         >
           <Link to={'/'}>
@@ -56,7 +58,7 @@ const Header: FC = () => {
                   textDecoration: 'none',
                 }}
               >
-                Movies
+                Anime
               </Link>
               <Link
                 to={'/'}
@@ -65,7 +67,7 @@ const Header: FC = () => {
                   textDecoration: 'none',
                 }}
               >
-                TV Shows
+                Manga
               </Link>
               <Link
                 to={'/'}
