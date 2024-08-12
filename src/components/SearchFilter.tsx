@@ -1,5 +1,7 @@
 import { InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDebounce } from '../service/graphql/hooks';
+import { useEffect, useState } from 'react';
 
 interface SearchFilterProps {
   xsWidth?: string;
@@ -14,8 +16,16 @@ const SearchFilter = ({
   mdWidth,
   setSearch,
 }: SearchFilterProps) => {
-  const searchHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 700);
+
+  useEffect(() => {
+    setSearch(debouncedSearchTerm);
+  }, [debouncedSearchTerm, setSearch]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -30,7 +40,7 @@ const SearchFilter = ({
           fontSize: '0.825rem',
         },
       }}
-      onChange={searchHandle}
+      onChange={handleSearchChange}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

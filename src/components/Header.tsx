@@ -52,7 +52,7 @@ const Header: FC = () => {
               }}
             >
               <Link
-                to={'/'}
+                to={'/anime'}
                 style={{
                   color: 'rgba(168, 174, 191, 1)',
                   textDecoration: 'none',
@@ -61,7 +61,7 @@ const Header: FC = () => {
                 Anime
               </Link>
               <Link
-                to={'/'}
+                to={'/manga'}
                 style={{
                   color: 'rgba(168, 174, 191, 1)',
                   textDecoration: 'none',
@@ -80,7 +80,7 @@ const Header: FC = () => {
                   textDecoration: 'none',
                 }}
               >
-                Suggest me <EastOutlinedIcon fontSize="small" />
+                Suggestions <EastOutlinedIcon fontSize="small" />
               </Link>
             </Stack>
           </Box>

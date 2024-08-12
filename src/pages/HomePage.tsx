@@ -13,6 +13,7 @@ import MediaList from '../components/MediaList';
 const HomePage: FC = () => {
   const [mediaType, setMediaType] = useState<string | null>('');
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
 
   const handleMediaType = (
     event: React.MouseEvent<HTMLElement>,
@@ -73,10 +74,10 @@ const HomePage: FC = () => {
       >
         {!mediaType ? 'All' : mediaType}
       </Typography>
-      <MediaList search={search} type={mediaType?.toUpperCase()} />
+      <MediaList page={page} search={search} type={mediaType?.toUpperCase()} />
       <Stack direction={'row'} justifyContent={'center'} m={'2rem auto 3rem'}>
-        <Button>Prev</Button>
-        <Button>Next</Button>
+        <Button onClick={() => setPage(page - 1)}>Prev</Button>
+        <Button onClick={() => setPage(page + 1)}>Next</Button>
       </Stack>
     </Container>
   );

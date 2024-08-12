@@ -7,10 +7,11 @@ import { FC } from 'react';
 interface MediaListProps {
   type: string | undefined;
   search: string | undefined;
+  page: number;
 }
 
-const MediaList: FC<MediaListProps> = ({ type, search }) => {
-  const { data, loading, error } = useGetPage(type, search);
+const MediaList: FC<MediaListProps> = ({ type, search, page }) => {
+  const { data, loading, error } = useGetPage(type, search, page);
 
   if (error) return <h1>Error...</h1>;
 
