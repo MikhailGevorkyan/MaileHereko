@@ -70,7 +70,7 @@ const Header: FC = () => {
                 Manga
               </Link>
               <Link
-                to={'/'}
+                to={'/suggestions'}
                 style={{
                   display: 'flex',
                   flexDirection: 'row',

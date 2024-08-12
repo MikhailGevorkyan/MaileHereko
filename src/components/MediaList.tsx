@@ -21,7 +21,7 @@ const MediaList: FC<MediaListProps> = ({ type, search, page }) => {
     <Box>
       <Grid container gap={'1.5rem'} justifyContent={'center'}>
         {loading ? (
-          <LoadingCards count={50} />
+          <LoadingCards count={20} />
         ) : (
           media?.map((anime) =>
             anime?.id &&
@@ -29,9 +29,10 @@ const MediaList: FC<MediaListProps> = ({ type, search, page }) => {
             anime?.title?.english ? (
               <MediaCard
                 key={anime.id}
+                id={anime.id}
                 coverImage={anime.coverImage.extraLarge}
                 title={anime.title.english}
-                loading={loading}
+                type={type}
               />
             ) : null,
           )

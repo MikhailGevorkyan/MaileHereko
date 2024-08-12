@@ -7,12 +7,16 @@ import {
   Typography,
 } from '@mui/material';
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-const MediaCard: FC<{
-  coverImage?: string;
-  title: string;
-  loading: boolean;
-}> = ({ coverImage, title }) => {
+interface MediaCardProps {
+  coverImage?: string | undefined;
+  title: string | undefined;
+  type: string | undefined;
+  id: number | undefined;
+}
+
+const MediaCard: FC<MediaCardProps> = ({ coverImage, title, type, id }) => {
   return (
     <Grid
       item
@@ -20,35 +24,40 @@ const MediaCard: FC<{
       lg={2.5}
       sx={{ borderRadius: 2, width: { xs: '19.5rem', sm: '15rem' } }}
     >
-      <Card
-        sx={{
-          maxWidth: '17.625rem',
-          maxHeight: '30rem',
-          bgcolor: 'rgba(32, 40, 62, 0.5)',
-          padding: '8px',
-          borderRadius: '12px',
-          backdropFilter: 'blur(10px)',
-          boxShadow: 'none',
-        }}
+      <Link
+        to={type === 'MANGA' ? `/manga/${id}` : `/anime/${id}`}
+        style={{ textDecoration: 'none' }}
       >
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="400"
-            image={coverImage}
-            alt="green iguana"
-            sx={{
-              borderRadius: '12px',
-            }}
-          />
+        <Card
+          sx={{
+            maxWidth: '17.625rem',
+            maxHeight: '30rem',
+            bgcolor: 'rgba(32, 40, 62, 0.5)',
+            padding: '8px',
+            borderRadius: '12px',
+            backdropFilter: 'blur(10px)',
+            boxShadow: 'none',
+          }}
+        >
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="400"
+              image={coverImage}
+              alt="green iguana"
+              sx={{
+                borderRadius: '12px',
+              }}
+            />
 
-          <CardContent>
-            <Typography sx={{ fontWeight: 600, lineHeight: '1.5rem' }}>
-              {title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+            <CardContent>
+              <Typography sx={{ fontWeight: 600, lineHeight: '1.5rem' }}>
+                {title}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
     </Grid>
   );
 };
