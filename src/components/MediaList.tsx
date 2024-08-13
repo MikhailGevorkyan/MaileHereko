@@ -33,6 +33,7 @@ const MediaList: FC<MediaListProps> = ({ type, search, page }) => {
                 coverImage={anime.coverImage.extraLarge}
                 title={anime.title.english}
                 type={type}
+                score={anime.averageScore!}
               />
             ) : null,
           )
