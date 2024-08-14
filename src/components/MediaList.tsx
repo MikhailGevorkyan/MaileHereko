@@ -2,16 +2,34 @@ import { Box, Grid } from '@mui/material';
 import { useGetPage } from '../service/graphql/hooks';
 import MediaCard from './MediaCard';
 import LoadingCards from './LoadingCards';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 interface MediaListProps {
   type: string | undefined;
   search: string | undefined;
   page: number;
+  setItemCount: (count: number) => void;
+  setHasNextPage: (hasNextPage: boolean) => void;
 }
 
-const MediaList: FC<MediaListProps> = ({ type, search, page }) => {
+const MediaList: FC<MediaListProps> = ({
+  type,
+  search,
+  page,
+  setItemCount,
+  setHasNextPage,
+}) => {
   const { data, loading, error } = useGetPage(type, search, page);
+
+  useEffect(() => {
+    if (data?.Page?.media) {
+      setItemCount(data.Page.media.length);
+      setHasNextPage(data.Page.pageInfo?.hasNextPage ?? false);
+    } else {
+      setItemCount(0);
+      setHasNextPage(false);
+    }
+  }, [data, setItemCount, setHasNextPage]);
 
   if (error) return <h1>Error...</h1>;
 

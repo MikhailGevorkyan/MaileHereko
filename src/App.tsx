@@ -4,8 +4,8 @@ import HomePage from './pages/HomePage';
 import AnimePage from './pages/AnimePage';
 import MangaPage from './pages/MangaPage';
 import DetailedAnimePage from './pages/details/DetailedAnimePage';
-import SuggestionsPage from './pages/SuggestionsPage';
 import DetailedMangaPage from './pages/details/DetailedMangaPage';
+import FavoritesPage from './pages/FavoritesPage';
 
 const App: FC = () => {
   return (
@@ -14,7 +14,7 @@ const App: FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/anime" element={<AnimePage />} />
         <Route path="/manga" element={<MangaPage />} />
-        <Route path="/suggestions/" element={<SuggestionsPage />} />
+        <Route path="/favorites/" element={<FavoritesPage />} />
         <Route path="/anime/:id" element={<DetailedAnimePage />} />
         <Route path="/manga/:id" element={<DetailedMangaPage />} />
       </Routes>

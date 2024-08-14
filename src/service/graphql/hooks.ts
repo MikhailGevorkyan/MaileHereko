@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 export const GET_PAGE = gql`
   query GET_ALL($type: MediaType, $search: String, $page: Int) {
     Page(page: $page, perPage: 20) {
+      pageInfo {
+        hasNextPage
+      }
       media(type: $type, search: $search) {
         id
         title {
@@ -50,6 +53,11 @@ export const GET_ANIME = gql`
       }
       episodes
       status
+      streamingEpisodes {
+        title
+        thumbnail
+        url
+      }
     }
   }
 `;
@@ -78,6 +86,25 @@ export const GET_MANGA = gql`
       chapters
       status
       description
+    }
+  }
+`;
+
+export const GET_MULTIPLE_MEDIA = gql`
+  query Get_Multiple_Media($ids: [Int]) {
+    Page(page: 1, perPage: 50) {
+      media(id_in: $ids) {
+        id
+        title {
+          english
+          romaji
+        }
+        type
+        coverImage {
+          extraLarge
+        }
+        averageScore
+      }
     }
   }
 `;
@@ -114,6 +141,19 @@ export const useGetManga = (id: string) => {
       mediaId: id,
     },
   });
+
+  return { data, loading, error };
+};
+
+export const useGetMultipleMedia = (ids: number[]) => {
+  const { data, loading, error } = useQuery<{ Page: Page }>(
+    GET_MULTIPLE_MEDIA,
+    {
+      variables: {
+        ids,
+      },
+    },
+  );
 
   return { data, loading, error };
 };

@@ -1,13 +1,37 @@
-import type { FC } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetAnime } from '../../service/graphql/hooks';
 import LoadingCards from '../../components/LoadingCards';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography, Grid } from '@mui/material';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import EpisodeCard from '../../components/EpisodeCard';
 
 const DetailedAnimePage: FC = () => {
   const params = useParams();
-
   const { data, loading, error } = useGetAnime(params.id!);
+
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (data && data.Media) {
+      setIsFavorite(favorites.includes(data.Media.id));
+    }
+  }, [data]);
+
+  const handleFavorite = () => {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    if (favorites.includes(data?.Media.id)) {
+      favorites = favorites.filter((favId: number) => favId !== data?.Media.id);
+      setIsFavorite(false);
+    } else {
+      favorites.push(data?.Media.id);
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  };
 
   if (loading) return <LoadingCards count={20} />;
 
@@ -32,7 +56,6 @@ const DetailedAnimePage: FC = () => {
         <img
           width={'100%'}
           src={anime.bannerImage!}
-          alt="Banner"
           style={{ borderRadius: '2.5rem' }}
         />
         <Stack
@@ -60,14 +83,14 @@ const DetailedAnimePage: FC = () => {
           <Typography
             sx={{ fontSize: '2rem', fontWeight: 600, lineHeight: '2.5rem' }}
           >
-            {anime.title.english ? anime.title?.english : anime.title?.romaji}
+            {anime?.title?.english ? anime.title?.english : anime.title?.romaji}
           </Typography>
         </Stack>
       </Box>
       <Stack direction={'row'} gap={'5rem'} sx={{ justifyContent: 'center' }}>
         <Box>
           <img
-            src={anime.coverImage?.extraLarge}
+            src={anime!.coverImage!.extraLarge!}
             alt="Cover image"
             style={{ width: '30rem', height: '45rem', borderRadius: '1.5rem' }}
           />
@@ -104,7 +127,6 @@ const DetailedAnimePage: FC = () => {
                 stroke-linejoin="round"
               />
             </svg>
-
             <Typography color={'rgba(255, 173, 73, 1)'} fontSize={'1rem'}>
               {anime.averageScore! / 10}
             </Typography>
@@ -119,7 +141,7 @@ const DetailedAnimePage: FC = () => {
               <Typography fontSize={'1.3rem'}>{anime.status}</Typography>
             </Stack>
           </Stack>
-          <Stack direction={'row'} gap={'9.7rem'}>
+          <Stack direction={'row'} gap={'8.8rem'}>
             <Stack>
               <Typography color={'rgba(118, 126, 148, 1)'}>
                 First air date
@@ -157,7 +179,34 @@ const DetailedAnimePage: FC = () => {
               {anime.genres?.join(', ')}
             </Typography>
           </Stack>
+          <Button
+            variant="outlined"
+            startIcon={<BookmarkIcon />}
+            sx={{ width: '10rem' }}
+            onClick={handleFavorite}
+          >
+            {isFavorite ? 'Unfavorite' : 'Favorite'}
+          </Button>
         </Stack>
+      </Stack>
+      <Stack spacing={2} mt={4}>
+        <Typography variant="h6" fontWeight={600}>
+          Streaming Episodes
+        </Typography>
+        {anime?.streamingEpisodes!.length > 0 ? (
+          <Grid container gap={'2rem'} justifyContent={'center'}>
+            {anime.streamingEpisodes?.map((episode, index) => (
+              <EpisodeCard
+                title={episode!.title!}
+                url={episode!.url!}
+                thumbnail={episode!.thumbnail!}
+                key={index}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <Typography>No episodes were found in the database. </Typography>
+        )}
       </Stack>
     </Container>
   );

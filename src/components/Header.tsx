@@ -1,7 +1,6 @@
 import { AppBar, Box, Stack, SvgIcon, Toolbar } from '@mui/material';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
-import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 
 const Header: FC = () => {
   return (
@@ -70,7 +69,7 @@ const Header: FC = () => {
                 Manga
               </Link>
               <Link
-                to={'/suggestions'}
+                to={'/favorites'}
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -80,7 +79,7 @@ const Header: FC = () => {
                   textDecoration: 'none',
                 }}
               >
-                Suggestions <EastOutlinedIcon fontSize="small" />
+                Favorites
               </Link>
             </Stack>
           </Box>

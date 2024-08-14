@@ -1,13 +1,37 @@
-import type { FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetManga } from '../../service/graphql/hooks';
 import LoadingCards from '../../components/LoadingCards';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const DetailedMangaPage: FC = () => {
   const params = useParams();
 
   const { data, loading, error } = useGetManga(params.id!);
+
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (data && data.Media) {
+      setIsFavorite(favorites.includes(data.Media.id));
+    }
+  }, [data]);
+
+  const handleFavorite = () => {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    if (favorites.includes(data?.Media.id)) {
+      favorites = favorites.filter((favId: number) => favId !== data?.Media.id);
+      setIsFavorite(false);
+    } else {
+      favorites.push(data?.Media.id);
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  };
 
   if (loading) return <LoadingCards count={20} />;
 
@@ -55,19 +79,19 @@ const DetailedMangaPage: FC = () => {
               mb: '0.5rem',
             }}
           >
-            MaileHereko / Anime
+            MaileHereko / Manga
           </Typography>
           <Typography
             sx={{ fontSize: '2rem', fontWeight: 600, lineHeight: '2.5rem' }}
           >
-            {manga.title.english ? manga.title?.english : manga.title?.romaji}
+            {manga?.title?.english ? manga.title?.english : manga.title?.romaji}
           </Typography>
         </Stack>
       </Box>
       <Stack direction={'row'} gap={'5rem'} sx={{ justifyContent: 'center' }}>
         <Box>
           <img
-            src={manga.coverImage?.extraLarge}
+            src={manga!.coverImage!.extraLarge!}
             alt="Cover image"
             style={{ width: '30rem', height: '45rem', borderRadius: '1.5rem' }}
           />
@@ -131,13 +155,17 @@ const DetailedMangaPage: FC = () => {
           <Stack direction={'row'} gap={'12rem'}>
             <Stack>
               <Typography color={'rgba(118, 126, 148, 1)'}>Volumes</Typography>
-              <Typography fontSize={'1.3rem'}>{manga.volumes}</Typography>
+              <Typography fontSize={'1.3rem'}>
+                {manga.volumes || 'Unknown'}
+              </Typography>
             </Stack>
             <Stack>
               <Typography color={'rgba(118, 126, 148, 1)'}>
                 No. of chapters
               </Typography>
-              <Typography fontSize={'1.3rem'}>{manga.chapters}</Typography>
+              <Typography fontSize={'1.3rem'}>
+                {manga.chapters || 'Unknown'}
+              </Typography>
             </Stack>
           </Stack>
           <Stack>
@@ -146,6 +174,14 @@ const DetailedMangaPage: FC = () => {
               {manga.genres?.join(', ')}
             </Typography>
           </Stack>
+          <Button
+            variant="outlined"
+            startIcon={<BookmarkIcon />}
+            sx={{ width: '10rem' }}
+            onClick={handleFavorite}
+          >
+            {isFavorite ? 'Unfavorite' : 'Favorite'}
+          </Button>
         </Stack>
       </Stack>
     </Container>
