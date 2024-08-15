@@ -4572,9 +4572,121 @@ export type Get_AllQuery = {
   __typename?: 'Query';
   Page?: {
     __typename?: 'Page';
+    pageInfo?: { __typename?: 'PageInfo'; hasNextPage?: boolean | null } | null;
     media?: Array<{
       __typename?: 'Media';
       id: number;
+      averageScore?: number | null;
+      title?: {
+        __typename?: 'MediaTitle';
+        english?: string | null;
+        romaji?: string | null;
+      } | null;
+      coverImage?: {
+        __typename?: 'MediaCoverImage';
+        extraLarge?: string | null;
+      } | null;
+    } | null> | null;
+  } | null;
+};
+
+export type Get_AnimeQueryVariables = Exact<{
+  mediaId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type Get_AnimeQuery = {
+  __typename?: 'Query';
+  Media?: {
+    __typename?: 'Media';
+    id: number;
+    description?: string | null;
+    averageScore?: number | null;
+    type?: MediaType | null;
+    bannerImage?: string | null;
+    genres?: Array<string | null> | null;
+    duration?: number | null;
+    episodes?: number | null;
+    status?: MediaStatus | null;
+    coverImage?: {
+      __typename?: 'MediaCoverImage';
+      extraLarge?: string | null;
+    } | null;
+    startDate?: {
+      __typename?: 'FuzzyDate';
+      year?: number | null;
+      month?: number | null;
+      day?: number | null;
+    } | null;
+    endDate?: {
+      __typename?: 'FuzzyDate';
+      year?: number | null;
+      month?: number | null;
+      day?: number | null;
+    } | null;
+    title?: {
+      __typename?: 'MediaTitle';
+      english?: string | null;
+      romaji?: string | null;
+    } | null;
+    streamingEpisodes?: Array<{
+      __typename?: 'MediaStreamingEpisode';
+      title?: string | null;
+      thumbnail?: string | null;
+      url?: string | null;
+    } | null> | null;
+  } | null;
+};
+
+export type Get_MangaQueryVariables = Exact<{
+  mediaId?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type Get_MangaQuery = {
+  __typename?: 'Query';
+  Media?: {
+    __typename?: 'Media';
+    id: number;
+    type?: MediaType | null;
+    bannerImage?: string | null;
+    averageScore?: number | null;
+    genres?: Array<string | null> | null;
+    volumes?: number | null;
+    chapters?: number | null;
+    status?: MediaStatus | null;
+    description?: string | null;
+    title?: {
+      __typename?: 'MediaTitle';
+      english?: string | null;
+      romaji?: string | null;
+    } | null;
+    coverImage?: {
+      __typename?: 'MediaCoverImage';
+      extraLarge?: string | null;
+    } | null;
+    startDate?: {
+      __typename?: 'FuzzyDate';
+      year?: number | null;
+      month?: number | null;
+      day?: number | null;
+    } | null;
+  } | null;
+};
+
+export type Get_Multiple_MediaQueryVariables = Exact<{
+  ids?: InputMaybe<
+    | Array<InputMaybe<Scalars['Int']['input']>>
+    | InputMaybe<Scalars['Int']['input']>
+  >;
+}>;
+
+export type Get_Multiple_MediaQuery = {
+  __typename?: 'Query';
+  Page?: {
+    __typename?: 'Page';
+    media?: Array<{
+      __typename?: 'Media';
+      id: number;
+      type?: MediaType | null;
       averageScore?: number | null;
       title?: {
         __typename?: 'MediaTitle';
@@ -4645,6 +4757,19 @@ export const Get_AllDocument = {
               selections: [
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'media' },
                   arguments: [
                     {
@@ -4713,3 +4838,330 @@ export const Get_AllDocument = {
     },
   ],
 } as unknown as DocumentNode<Get_AllQuery, Get_AllQueryVariables>;
+export const Get_AnimeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Get_Anime' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'mediaId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Media' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'mediaId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'averageScore' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bannerImage' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'coverImage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'extraLarge' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'genres' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'startDate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'month' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'day' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'endDate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'month' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'day' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'title' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'english' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'romaji' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'episodes' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'streamingEpisodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'thumbnail' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_AnimeQuery, Get_AnimeQueryVariables>;
+export const Get_MangaDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Get_Manga' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'mediaId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Media' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'mediaId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'title' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'english' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'romaji' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bannerImage' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'coverImage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'extraLarge' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'averageScore' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'genres' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'startDate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'year' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'month' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'day' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'volumes' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'chapters' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_MangaQuery, Get_MangaQueryVariables>;
+export const Get_Multiple_MediaDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Get_Multiple_Media' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'ids' } },
+          type: {
+            kind: 'ListType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Page' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'page' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'perPage' },
+                value: { kind: 'IntValue', value: '50' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'media' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'id_in' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'ids' },
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'title' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'english' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'romaji' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'coverImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'extraLarge' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'averageScore' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  Get_Multiple_MediaQuery,
+  Get_Multiple_MediaQueryVariables
+>;

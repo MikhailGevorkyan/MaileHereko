@@ -1,5 +1,4 @@
 import { InputAdornment, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { useDebounce } from '../service/graphql/hooks';
 import { useEffect, useState } from 'react';
 
@@ -31,20 +30,57 @@ const SearchFilter = ({
   return (
     <TextField
       placeholder="Search Anime or Manga"
+      variant="outlined"
       sx={{
         width: {
           xs: xsWidth,
           sm: smWidth,
           md: mdWidth,
-          maxWidth: '21.5rem',
-          fontSize: '0.825rem',
+          maxWidth: '17.5rem',
         },
+        backgroundColor: 'transparent',
+        borderRadius: '12px',
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            borderColor: 'rgba(71, 80, 105, 1)',
+          },
+          '&:hover fieldset': {
+            borderColor: 'rgba(71, 80, 105, 1)',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: 'rgba(71, 80, 105, 1)',
+          },
+          color: 'rgba(71, 80, 105, 1)',
+          fontFamily: 'Poppins, sans-serif',
+        },
+        fontSize: '0.825rem',
       }}
       onChange={handleSearchChange}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <SearchIcon />
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                stroke="#475069"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M22 22L20 20"
+                stroke="#475069"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </InputAdornment>
         ),
       }}

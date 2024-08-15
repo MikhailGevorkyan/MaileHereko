@@ -9,11 +9,15 @@ import {
 import { useState, type FC } from 'react';
 import SearchFilter from '../components/SearchFilter';
 import MediaList from '../components/MediaList';
+import MaileHereko from '../components/MaileHereko';
+import Heading from '../components/Heading';
 
 const HomePage: FC = () => {
   const [mediaType, setMediaType] = useState<string | null>('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [itemCount, setItemCount] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
 
   const handleMediaType = (
     event: React.MouseEvent<HTMLElement>,
@@ -21,23 +25,14 @@ const HomePage: FC = () => {
   ) => {
     if (newAlignment !== null && newAlignment !== mediaType)
       setMediaType(newAlignment);
+    setPage(1);
   };
 
   return (
     <Container>
       <Stack mt={'5rem'} mb={'1.5rem'}>
-        <Typography
-          component="h1"
-          sx={{
-            color: 'rgba(235, 238, 245, 1)',
-            fontSize: '4rem',
-            fontWeight: 600,
-            lineHeight: '5rem',
-            mb: '1rem',
-          }}
-        >
-          MaileHereko
-        </Typography>
+        <MaileHereko />
+        <Heading heading="MaileHereko" />
         <Typography
           sx={{
             color: 'rgba(142, 149, 169, 1)',
@@ -55,12 +50,68 @@ const HomePage: FC = () => {
         value={mediaType}
         exclusive
         onChange={handleMediaType}
-        aria-label="Platform"
-        sx={{ display: 'block', mt: '5rem', mb: '2rem' }}
+        aria-label="Type"
+        sx={{
+          display: 'block',
+          width: '14.5rem',
+          mt: '5rem',
+          mb: '2rem',
+          backgroundColor: '#1C1C2C',
+          borderRadius: '8px',
+          padding: '5px',
+        }}
       >
-        <ToggleButton value="">All</ToggleButton>
-        <ToggleButton value="Anime">Anime</ToggleButton>
-        <ToggleButton value="Manga">Manga</ToggleButton>
+        <ToggleButton
+          value=""
+          sx={{
+            color: 'rgba(235, 238, 245, 1)',
+            '&.Mui-selected': {
+              backgroundColor: '#7F56D9',
+              color: '#fff',
+            },
+            textTransform: 'none',
+            fontWeight: '600',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            flex: 1,
+          }}
+        >
+          All
+        </ToggleButton>
+        <ToggleButton
+          value="Anime"
+          sx={{
+            color: 'rgba(235, 238, 245, 1)',
+            '&.Mui-selected': {
+              backgroundColor: '#7F56D9',
+              color: '#fff',
+            },
+            textTransform: 'none',
+            fontWeight: '600',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            flex: 1,
+          }}
+        >
+          Anime
+        </ToggleButton>
+        <ToggleButton
+          value="Manga"
+          sx={{
+            color: 'rgba(235, 238, 245, 1)',
+            '&.Mui-selected': {
+              backgroundColor: '#7F56D9',
+              color: '#fff',
+            },
+            textTransform: 'none',
+            fontWeight: '600',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            flex: 1,
+          }}
+        >
+          Manga
+        </ToggleButton>
       </ToggleButtonGroup>
       <Typography
         variant="h4"
@@ -72,12 +123,30 @@ const HomePage: FC = () => {
           mb: '1.5rem',
         }}
       >
-        {!mediaType ? 'All' : mediaType}
+        {!mediaType ? 'All' : mediaType}{' '}
+        <Typography
+          component={'span'}
+          sx={{
+            mt: '3rem',
+            mb: '1.5rem',
+            color: 'rgba(118, 126, 148, 1)',
+          }}
+        >
+          ({itemCount})
+        </Typography>
       </Typography>
-      <MediaList page={page} search={search} type={mediaType?.toUpperCase()} />
+      <MediaList
+        page={page}
+        search={search}
+        type={mediaType?.toUpperCase()}
+        setItemCount={setItemCount}
+        setHasNextPage={setHasNextPage}
+      />
       <Stack direction={'row'} justifyContent={'center'} m={'2rem auto 3rem'}>
         <Button onClick={() => setPage(page - 1)}>Prev</Button>
-        <Button onClick={() => setPage(page + 1)}>Next</Button>
+        <Button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+          Next
+        </Button>
       </Stack>
     </Container>
   );
